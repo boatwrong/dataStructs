@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 void getInt(int *x)
 {
@@ -6,10 +7,26 @@ void getInt(int *x)
     {
         int z;
         do {
-            printf("try again\n");
             z = scanf("%*c%d", x);
         }while(z != 1);
     }
+}
+
+int binSort(int arr[], int arrSize, int query)
+{
+    // binary sort method to find number of games with price <= query
+
+    int count = 0;
+
+    for(int i = 0; i < arrSize; i++)
+    {
+        // check if game price is less than query
+        if(query > arr[i])
+        {
+            count++;
+        }
+    }
+    return count;
 }
 
 int main(int argc, char *argv[])
@@ -17,29 +34,32 @@ int main(int argc, char *argv[])
 
     int numGames, numQueries;
 
-    printf("Please enter the number of games in the shop\n");
+    // take input for number of games
     getInt(&numGames);
     int games[numGames];
 
-
-    printf("Please enter the prices of the %d games\n", numGames);   
+    // take input for game prices
     for(int i = 0; i < numGames; i++)
     {
         getInt(&games[i]);
     }
 
-    printf("Please enter the number of queries allowed \n");   
+    // take input for amount of queries allowed
     getInt(&numQueries);
     int queries[3];
 
-    printf("Please enter %d queries to see how many games are below the price entered\n", numQueries);
+    // take input for array of queries
     for(int i = 0; i < numQueries; i++)
     {
         getInt(&queries[i]);
     }
 
     // implemet binary sort
+    for(int i = 0; i < numQueries; i++)
+    {
+        printf("%d\n", binSort(games, numGames, queries[i]));
+    }
 
-    return 0;
+    exit(0);
 }
 
