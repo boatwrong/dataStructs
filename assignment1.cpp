@@ -6,11 +6,29 @@ int main() {
 	int numGames;
 	int game[numGames];
 
-	cin >> numGames;
+    while(true)
+    {
+        if(!(cin >> numGames))
+        {
+            cout << "bad input\n";
+            continue;
+        }
+        break;
+    }
 
 	for(int i = 0; i < numGames; i++)
 	{
-		cin >> game[i];
+	
+        while(true)
+        {
+            if(!(cin >> game[i]))
+            {
+                cout << "bad input\n";
+                continue;
+            }
+            break;
+        }
+
 	}
 
 
