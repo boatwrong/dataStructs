@@ -1,0 +1,3 @@
+Compare and contrast bubble sort, insertion sort and quicksort. Provide pros and cons of each and when they would/wouldn't be appropriate to use.
+
+

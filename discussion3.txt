@@ -1,0 +1,1 @@
+How is an array different from a linked list

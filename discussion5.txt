@@ -1,0 +1,1 @@
+List and define the five most common operations that can be performed on all Data Structures?

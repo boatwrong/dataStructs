@@ -1,0 +1,1 @@
+In your own words, define what a hash table is/does and why you would use one - give 3 concrete examples.
