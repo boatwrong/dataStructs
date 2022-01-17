@@ -30,17 +30,20 @@ void push(int x)
 
 void outputList()
 {
-    struct node *current = head;
+    printf("In output function\n");
+    struct node *pointer = head;
 
-    //while(current != 0)
-    //{
-    //    printf("%d ", current->value);
-    //}
+    printf("[ ");
+    while(pointer != NULL)
+    {
+        printf("%d ", pointer->value);
+        pointer = pointer->next;
+    }
+    printf("]\n");
 }
 
 int main()
 {
-
     int numElements;
 
     scanf("%d", &numElements);
