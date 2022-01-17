@@ -1,19 +1,30 @@
 #include<stdio.h>
-#include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-struct node 
+typedef struct
 {
     int value;
     struct node *next;
-};
+} node;
 
-// struct node *head = NULL;
-// struct node *current = NULL;
+struct node *head = NULL;
+struct node *tail = NULL;
 
-int main(int argc, char *argv[])
+void append(int x)
 {
+    node *current = (node*)malloc(sizeof(node*));
+
+    current->value = x;
+}
+int main()
+{
+
+    int numElements;
+
+    scanf("%d", &numElements);
+    if(numElements < 0)
+    {
+        return 1;
+    }
     return 0;
 }
-
