@@ -1,21 +1,30 @@
 #include<stdio.h>
 #include <stdlib.h>
 
-typedef struct
+struct node
 {
     int value;
     struct node *next;
-} node;
+};
 
 struct node *head = NULL;
 struct node *tail = NULL;
 
-void append(int x)
+void createFirst(int x)
 {
-    node *current = (node*)malloc(sizeof(node*));
-
+    struct node *current = (struct node*)malloc(sizeof(struct node*));
     current->value = x;
+    current->next = 0;
 }
+
+void push(int x)
+{
+    struct node *current = (struct node*)malloc(sizeof(struct node*));
+    current->value = x;
+    current->next = 0;
+    tail->next = current;
+}
+
 int main()
 {
 
@@ -26,5 +35,6 @@ int main()
     {
         return 1;
     }
+
     return 0;
 }
