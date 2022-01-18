@@ -8,15 +8,6 @@ struct node
 };
 
 struct node *head = NULL;
-struct node *tail = NULL;
-
-void startList(struct node* head, int x)
-{
-    struct node *current = (struct node*)malloc(sizeof(struct node*));
-    current->value = x;
-    current->next = 0;
-    head = current;
-}
 
 void push(int x)
 {
@@ -25,21 +16,24 @@ void push(int x)
     struct node *temp = NULL;
     current = malloc(sizeof(struct node*));
     temp = malloc(sizeof(struct node*));
+    current = head;
+    temp->value = x;
+    temp->next=0;
 
-    // temp is placeholder for tail value;
-    // tail will be reassigned to current
-    // and current will become the new tail
-    temp->value = tail->value;
-    temp->next = tail;
-    tail->value = x;
-    current->value = temp->value;
-    current->next = tail;
+    while(current->next != 0)
+    {
+        current = current->next;
+    }
+
+    current->next = temp;
 }
 
-void outputList(struct node* head)
+void outputList()
 {
     printf("In output function\n");
-    struct node *pointer = head;
+    struct node *pointer = NULL;
+    pointer = malloc(sizeof(struct node*));
+    pointer = head;
 
     printf("[ ");
     while(pointer != NULL)
@@ -53,7 +47,6 @@ void outputList(struct node* head)
 int main()
 {
     head = malloc(sizeof(struct node*));
-    tail = malloc(sizeof(struct node*));
 
     int numElements;
     scanf("%d", &numElements);
@@ -61,15 +54,14 @@ int main()
     int x;
     scanf("%d", &x);
     head->value = x;
-    scanf("%d", &x);
-    tail->value = x;
-    tail->next = 0;
-    head->next = tail;
+    head->next = 0;
 
-    for(int i = 2; i < numElements; i++)
+    for(int i = 1; i < numElements; i++)
     {
+        printf("adding node\n");
         scanf("%d", &x);
         push(x);
     }
+    outputList();
     return 0;
 }
