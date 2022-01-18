@@ -20,10 +20,20 @@ void startList(struct node* head, int x)
 
 void push(int x)
 {
+    // create new and temp node
     struct node *current = NULL;
+    struct node *temp = NULL;
     current = malloc(sizeof(struct node*));
-    current->value = x;
-    current->next = 0;
+    temp = malloc(sizeof(struct node*));
+
+    // temp is placeholder for tail value;
+    // tail will be reassigned to current
+    // and current will become the new tail
+    temp->value = tail->value;
+    temp->next = tail;
+    tail->value = x;
+    current->value = temp->value;
+    current->next = tail;
 }
 
 void outputList(struct node* head)
@@ -59,6 +69,7 @@ int main()
     for(int i = 2; i < numElements; i++)
     {
         scanf("%d", &x);
+        push(x);
     }
     return 0;
 }
