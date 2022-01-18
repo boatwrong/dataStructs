@@ -14,8 +14,8 @@ void push(int x)
     // create new and temp node
     struct node *current = NULL;
     struct node *temp = NULL;
-    current = malloc(sizeof(struct node*));
-    temp = malloc(sizeof(struct node*));
+    current = (struct node*) malloc(sizeof(struct node*));
+    temp = (struct node*) malloc(sizeof(struct node*));
     current = head;
     temp->value = x;
     temp->next=0;
@@ -32,7 +32,7 @@ void outputList()
 {
     printf("In output function\n");
     struct node *pointer = NULL;
-    pointer = malloc(sizeof(struct node*));
+    pointer = (struct node*) (malloc(sizeof(struct node*)));
     pointer = head;
 
     while(pointer != NULL)
@@ -42,12 +42,12 @@ void outputList()
     }
     printf("\n");
 }
+
 void traverseAndSwap()
 {
     struct node *pointer = NULL;
     struct node *temp = NULL;
-    pointer = malloc(sizeof(struct node*));
-    temp = malloc(sizeof(struct node*));
+    pointer = (struct node*) malloc(sizeof(struct node*));
     pointer = head;
     int tempValue;
 
@@ -65,7 +65,7 @@ void traverseAndSwap()
 
 int main()
 {
-    head = malloc(sizeof(struct node*));
+    head = (struct node*) malloc(sizeof(struct node*));
 
     int numElements;
     scanf("%d", &numElements);
