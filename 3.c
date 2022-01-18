@@ -35,13 +35,32 @@ void outputList()
     pointer = malloc(sizeof(struct node*));
     pointer = head;
 
-    printf("[ ");
     while(pointer != NULL)
     {
         printf("%d ", pointer->value);
         pointer = pointer->next;
     }
-    printf("]\n");
+    printf("\n");
+}
+void traverseAndSwap()
+{
+    struct node *pointer = NULL;
+    struct node *temp = NULL;
+    pointer = malloc(sizeof(struct node*));
+    temp = malloc(sizeof(struct node*));
+    pointer = head;
+    int tempValue;
+
+    while(pointer->next != 0)
+    {
+        if((pointer->value % 2) == 0 && (pointer->next->value % 2 == 0))
+        {
+            tempValue = pointer->next->value;
+            pointer->next->value = pointer->value;
+            pointer->value = tempValue;
+        }
+        pointer = pointer->next;
+    }
 }
 
 int main()
@@ -58,10 +77,11 @@ int main()
 
     for(int i = 1; i < numElements; i++)
     {
-        printf("adding node\n");
         scanf("%d", &x);
         push(x);
     }
+    outputList();
+    traverseAndSwap();
     outputList();
     return 0;
 }
