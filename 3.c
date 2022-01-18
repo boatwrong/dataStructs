@@ -10,7 +10,7 @@ struct node
 struct node *head = NULL;
 struct node *tail = NULL;
 
-void startList(int x)
+void startList(struct node* head, int x)
 {
     struct node *current = (struct node*)malloc(sizeof(struct node*));
     current->value = x;
@@ -20,15 +20,13 @@ void startList(int x)
 
 void push(int x)
 {
-    struct node *current = (struct node*)malloc(sizeof(struct node*));
+    struct node *current = NULL;
+    current = malloc(sizeof(struct node*));
     current->value = x;
-    current->next = NULL;
-   // tail->next = current;
-   // printf("passed assigning tail pointer to current node\n");
-    tail = current;
+    current->next = 0;
 }
 
-void outputList()
+void outputList(struct node* head)
 {
     printf("In output function\n");
     struct node *pointer = head;
@@ -44,25 +42,23 @@ void outputList()
 
 int main()
 {
-    int numElements;
+    head = malloc(sizeof(struct node*));
+    tail = malloc(sizeof(struct node*));
 
+    int numElements;
     scanf("%d", &numElements);
-    if(numElements < 0)
-    {
-        return 1;
-    }
 
     int x;
     scanf("%d", &x);
-    startList(x);
+    head->value = x;
+    scanf("%d", &x);
+    tail->value = x;
+    tail->next = 0;
+    head->next = tail;
 
-    for(int i = 1; i < numElements; i++)
+    for(int i = 2; i < numElements; i++)
     {
         scanf("%d", &x);
-        push(x);
     }
-
-    outputList();
-
     return 0;
 }
