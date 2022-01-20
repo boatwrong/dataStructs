@@ -30,7 +30,6 @@ void push(int x)
 
 void outputList()
 {
-    printf("In output function\n");
     struct node *pointer = NULL;
     pointer = (struct node*) (malloc(sizeof(struct node*)));
     pointer = head;
@@ -48,18 +47,62 @@ void traverseAndSwap()
     struct node *pointer = NULL;
     struct node *temp = NULL;
     pointer = (struct node*) malloc(sizeof(struct node*));
+    temp = (struct node*) malloc(sizeof(struct node*));
     pointer = head;
     int tempValue;
 
     while(pointer->next != 0)
     {
-        if((pointer->value % 2) == 0 && (pointer->next->value % 2 == 0))
+        if((pointer->value % 2) == 0)
         {
-            tempValue = pointer->next->value;
-            pointer->next->value = pointer->value;
-            pointer->value = tempValue;
+            printf("Made it here\n");
+            // TODO fix infinite loop
+            temp = pointer;
+            int index = 0;
+            while(pointer->next->value % 2 == 0)
+            {
+                index++;
+                if(index == 1)
+                {
+                    // do single flip
+                    tempValue = pointer->next->value;
+                    pointer->next->value = pointer->value;
+                    pointer->value = tempValue;
+                    pointer = pointer->next;
+                }
+                else if(index == 2)
+                {
+                    // figure out algorithm for multiple evens
+                    tempValue = pointer->next->next->value;
+                    pointer->next->next->value = pointer->value;
+                    pointer->value = tempValue;
+                    pointer = pointer->next->next;
+                }
+                else if(index > 2)
+                {
+                    // multiple flips
+                    printf("multiple evens in a row\n");
+                }
+            }
+           //  if(pointer->next->next->value % 2 == 0)
+           //  {
+           //      tempValue = pointer->next->next->value;
+           //      pointer->next->next->value = pointer->value;
+           //      pointer->value = tempValue;
+           //      pointer = pointer->next->next;
+           //  }
+           //  else
+           //  {
+           //      tempValue = pointer->next->value;
+           //      pointer->next->value = pointer->value;
+           //      pointer->value = tempValue;
+           //      pointer = pointer->next;
+           //  }
         }
-        pointer = pointer->next;
+        else
+        {
+            pointer = pointer->next;
+        }
     }
 }
 
@@ -80,7 +123,6 @@ int main()
         scanf("%d", &x);
         push(x);
     }
-    outputList();
     traverseAndSwap();
     outputList();
     return 0;
