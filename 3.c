@@ -8,6 +8,17 @@ struct node
 };
 
 struct node *head = NULL;
+void swap(struct node *p1, struct node *p2)
+{
+    int tmp = p2->value;
+    p2->value = p1->value;
+    p1->value = tmp;
+}
+void swapNodes(struct node *pointer, int index)
+{
+
+    
+}
 
 void push(int x)
 {
@@ -42,6 +53,43 @@ void outputList()
     printf("\n");
 }
 
+void newTraverse()
+{
+    struct node *pointer = NULL;
+    struct node *temp = NULL;
+    pointer = (struct node*) malloc(sizeof(struct node*));
+    temp = (struct node*) malloc(sizeof(struct node*));
+    pointer = head;
+    int tempValue;
+
+    while(pointer->next != 0)
+    {
+        if((pointer->value % 2) == 0)
+        {
+            // TODO fix infinite loop
+            temp = pointer;
+            int index = 0;
+            while(temp->next->value % 2 == 0 && temp->next != 0)
+            {
+                index++;
+                temp = temp->next;
+            }
+            temp = pointer;
+
+            if(index == 1)
+            {
+                swapNodes(pointer, index);
+            }
+        }
+
+        else
+        {
+            printf("no following even nodes\n");
+            pointer = pointer->next;
+        }
+    }
+}
+
 void traverseAndSwap()
 {
     struct node *pointer = NULL;
@@ -55,17 +103,19 @@ void traverseAndSwap()
     {
         if((pointer->value % 2) == 0)
         {
-            printf("Made it here\n");
             // TODO fix infinite loop
             temp = pointer;
             int index = 0;
-            while(pointer->next->value % 2 == 0)
+            while(temp->next->value % 2 == 0 && temp->next != 0)
             {
                 index++;
+                temp = temp->next;
             }
+            temp = pointer;
 
             if(index == 1)
             {
+                printf("2 even nodes in a row\n");
                 // do single flip
                 tempValue = pointer->next->value;
                 pointer->next->value = pointer->value;
@@ -75,6 +125,7 @@ void traverseAndSwap()
 
             else if(index == 2)
             {
+                printf("3 even nodes in a row\n");
                 // do flip with three even elements
                 tempValue = pointer->next->next->value;
                 pointer->next->next->value = pointer->value;
@@ -84,11 +135,18 @@ void traverseAndSwap()
 
             else if(index > 2)
             {
+                // swapNodes(index);
                 // multiple flips
-                printf("multiple evens in a row\n");
+                printf("%d even nodes in  a row\n",index + 1);
+                pointer = pointer->next->next->next;
             }
 
-            pointer = pointer->next;
+            else
+            {
+                printf("no following even nodes\n");
+                pointer = pointer->next;
+            }
+
            //  if(pointer->next->next->value % 2 == 0)
            //  {
            //      tempValue = pointer->next->next->value;
@@ -128,7 +186,8 @@ int main()
         scanf("%d", &x);
         push(x);
     }
-    traverseAndSwap();
+//    traverseAndSwap();
+    newTraverse();
     outputList();
     return 0;
 }
