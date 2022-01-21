@@ -62,28 +62,33 @@ void traverseAndSwap()
             while(pointer->next->value % 2 == 0)
             {
                 index++;
-                if(index == 1)
-                {
-                    // do single flip
-                    tempValue = pointer->next->value;
-                    pointer->next->value = pointer->value;
-                    pointer->value = tempValue;
-                    pointer = pointer->next;
-                }
-                else if(index == 2)
-                {
-                    // figure out algorithm for multiple evens
-                    tempValue = pointer->next->next->value;
-                    pointer->next->next->value = pointer->value;
-                    pointer->value = tempValue;
-                    pointer = pointer->next->next;
-                }
-                else if(index > 2)
-                {
-                    // multiple flips
-                    printf("multiple evens in a row\n");
-                }
             }
+
+            if(index == 1)
+            {
+                // do single flip
+                tempValue = pointer->next->value;
+                pointer->next->value = pointer->value;
+                pointer->value = tempValue;
+                pointer = pointer->next;
+            }
+
+            else if(index == 2)
+            {
+                // do flip with three even elements
+                tempValue = pointer->next->next->value;
+                pointer->next->next->value = pointer->value;
+                pointer->value = tempValue;
+                pointer = pointer->next->next;
+            }
+
+            else if(index > 2)
+            {
+                // multiple flips
+                printf("multiple evens in a row\n");
+            }
+
+            pointer = pointer->next;
            //  if(pointer->next->next->value % 2 == 0)
            //  {
            //      tempValue = pointer->next->next->value;
