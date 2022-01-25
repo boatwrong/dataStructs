@@ -1,3 +1,6 @@
+4:	4.c
+	gcc -o 4 4.c
+
 3:	3.c
 	gcc -o 3 3.c
 
@@ -6,9 +9,3 @@
 
 1:	1.c
 	gcc -o 1 1.c
-
-
-clean:
-	rm 2
-	rm 1
-
