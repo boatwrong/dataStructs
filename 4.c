@@ -1,4 +1,7 @@
 #include<stdio.h>
+#include<stdlib.h>
+
+int numElements;
 
 struct node {
     int value;
@@ -9,26 +12,49 @@ struct node *head = NULL;
 
 void push(int x)
 {
-    printf("push\n");
+    struct node *current = (struct node*) malloc(sizeof(struct node));
+    current->value = x;
+    current->next = head;
+    head = current;
+    numElements++;
 }
 
-void pop()
+
+void displayTop()
 {
-    printf("pop\n");
+    printf("%d\n", head->value);
+}
+
+int pop()
+{
+    int x = head->value;
+    head = head->next;
+    numElements--;
+    if(head == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return x;
+    }
 }
 
 void sum()
 {
-    printf("print sum\n");
-}
-
-void displayTop()
-{
-    printf("display top element\n");
+    struct node *pointer = head;
+    int sum = pointer->value;
+    while(pointer->next != 0)
+    {
+        pointer = pointer->next;
+        sum += pointer->value;
+    }
+    printf("%d\n", sum);
 }
 
 void query()
 {
+    int sumPopped = 0;
     int x,y,n;
     scanf("%d", &y);
 
@@ -45,15 +71,21 @@ void query()
             }
             break;
         case 3:
-            displayTop();
-            pop();
+            // displayTop();
+            printf("%d\n", pop());
             break;
         case 4:
             scanf("%d", &n);
-            for(int i=0; i<n; i++)
+            if(n <= numElements)
             {
-                pop();
+                for(int i=0; i<n; i++)
+                {
+                    sumPopped += pop();
+                }
+                printf("%d\n", sumPopped);
+                break;
             }
+            sum();
             break;
         case 5:
             sum();
