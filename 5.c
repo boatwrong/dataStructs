@@ -67,22 +67,34 @@ int sumTop(int x)
             break;
         }
     }
+    printf("returning sum top: %d \n\n", sum);
     return sum;
 }
 
 int sumBottom(int y)
 {
+    printf("%d\n", y);
     int sum = 0;
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    traverse(temp, y);
-    for(int i = 0; i < y; i++)
+    // traverse(temp, y);
+    for(int i = 0; i<y-1; i++)
     {
-        printf("addint %d to bottom sum\n", temp->value);
-        sum += temp->value;
         temp = temp->next;
     }
+    while(temp->next != NULL)
+    {
+        temp = temp->next;
+        sum += temp->value;
+    }
+    // for(int i = 0; i < y; i++)
+    // {
+    //     printf("addint %d to bottom sum\n", temp->value);
+    //     sum += temp->value;
+    //     temp = temp->next;
+    // }
+    printf("returning sum bottom: %d \n\n", sum);
     return sum;
 }
 
@@ -93,8 +105,9 @@ void checkSum(int *x, int *k, int n)
     for(int i=0; i < *k; i++)
     {
         arr[i] = sumTop(*k-i) + sumBottom(n - i);
+        printf("\n\n\n");
     }
-    arr[*k] = sumBottom(*k);
+    arr[*k] = sumBottom(n - *k);
     int largest = 0;
     for(int i =0; i<*k+1; i++)
     {
