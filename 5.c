@@ -92,7 +92,7 @@ void checkSum(int *x, int *k, int n)
     int arr[*k+1];
     for(int i=0; i < *k; i++)
     {
-        arr[i] = sumTop(*k-i) + sumBottom(i);
+        arr[i] = sumTop(*k-i) + sumBottom(n - i);
     }
     arr[*k] = sumBottom(*k);
     int largest = 0;
@@ -103,6 +103,7 @@ void checkSum(int *x, int *k, int n)
             largest = arr[i];
         }
     }
+    printf("largest sum chosen: %d\n", largest);
     *x += largest;
 }
 
@@ -115,6 +116,8 @@ void findLargestSum(int *x, int *k, int n)
     {
         // pop from back of stack while head is greater than bottom of stack
         popStack(x, k);
+        n--;
+        printf("%d elements left\n", n);
     }
     checkSum(x, k, n);
 }
@@ -134,6 +137,8 @@ int main()
         push(m);
     }
     popStack(&x, &k);
+    n--;
+    printf("%d elements left\n", n);
     findLargestSum(&x, &k, n);
     printf("%d\n", x);
     outputList();
