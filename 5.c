@@ -8,17 +8,6 @@ struct node {
 
 struct node *head = NULL;
 
-void outputList()
-{
-    struct node *current = NULL;
-    current = (struct node*) malloc(sizeof(struct node*));
-    current = head;
-    while(current->next != 0)
-    {
-        current = current->next;
-    }
-}
-
 void push(int m)
 {
     struct node *current = NULL;
@@ -37,7 +26,6 @@ void push(int m)
 
 void popStack(int *x, int *k)
 {
-    printf("popping %d\n", head->value);
     *x += head->value;
     head = head->next;
     *k-=1;
@@ -67,18 +55,15 @@ int sumTop(int x)
             break;
         }
     }
-    printf("returning sum top: %d \n\n", sum);
     return sum;
 }
 
 int sumBottom(int y)
 {
-    printf("%d\n", y);
     int sum = 0;
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    // traverse(temp, y);
     for(int i = 0; i<y-1; i++)
     {
         temp = temp->next;
@@ -88,24 +73,15 @@ int sumBottom(int y)
         temp = temp->next;
         sum += temp->value;
     }
-    // for(int i = 0; i < y; i++)
-    // {
-    //     printf("addint %d to bottom sum\n", temp->value);
-    //     sum += temp->value;
-    //     temp = temp->next;
-    // }
-    printf("returning sum bottom: %d \n\n", sum);
     return sum;
 }
 
 void checkSum(int *x, int *k, int n)
 {
-    // compare sum of top and bottom of stack to find greatest value
     int arr[*k+1];
     for(int i=0; i < *k; i++)
     {
         arr[i] = sumTop(*k-i) + sumBottom(n - i);
-        printf("\n\n\n");
     }
     arr[*k] = sumBottom(n - *k);
     int largest = 0;
@@ -116,7 +92,6 @@ void checkSum(int *x, int *k, int n)
             largest = arr[i];
         }
     }
-    printf("largest sum chosen: %d\n", largest);
     *x += largest;
 }
 
@@ -127,10 +102,8 @@ void findLargestSum(int *x, int *k, int n)
     temp = head;
     while(head->value >= temp->value && k >= 0)
     {
-        // pop from back of stack while head is greater than bottom of stack
         popStack(x, k);
         n--;
-        printf("%d elements left\n", n);
     }
     checkSum(x, k, n);
 }
@@ -151,8 +124,6 @@ int main()
     }
     popStack(&x, &k);
     n--;
-    printf("%d elements left\n", n);
     findLargestSum(&x, &k, n);
     printf("%d\n", x);
-    outputList();
 }
