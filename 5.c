@@ -10,14 +10,13 @@ struct node *head = NULL;
 
 void outputList()
 {
-//    struct node *current = NULL;
-//    current = (struct node*) malloc(sizeof(struct node*));
-//    current = head;
-//
-//    while(current->next != 0)
-//    {
-//        printf("%d", current->value);
-//    }
+    struct node *current = NULL;
+    current = (struct node*) malloc(sizeof(struct node*));
+    current = head;
+    while(current->next != 0)
+    {
+        current = current->next;
+    }
 }
 
 void push(int m)
@@ -38,15 +37,16 @@ void push(int m)
 
 void popStack(int *x, int *k)
 {
+    printf("popping %d\n", head->value);
     *x += head->value;
     head = head->next;
     *k-=1;
 }
 
-void traverse(struct node* pointer)
+void traverse(struct node* pointer, int x)
 {
-    // moves a pointer through stack
-    while(pointer->next != NULL)
+    // moves a pointer through stack x number of times
+    for(int i = 0; i < x; i++)
     {
         pointer = pointer->next;
     }
@@ -57,7 +57,6 @@ int sumTop(int x)
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    // traverse(temp);
     int sum = 0;
     for(int i = 0; i < x; i++)
     {
@@ -68,7 +67,6 @@ int sumTop(int x)
             break;
         }
     }
-    printf("returning %d\n", sum);
     return sum;
 }
 
@@ -78,13 +76,13 @@ int sumBottom(int y)
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    traverse(temp);
+    traverse(temp, y);
     for(int i = 0; i < y; i++)
     {
+        printf("addint %d to bottom sum\n", temp->value);
         sum += temp->value;
         temp = temp->next;
     }
-    printf("returning %d\n", sum);
     return sum;
 }
 
@@ -95,7 +93,6 @@ void checkSum(int *x, int *k, int n)
     for(int i=0; i < *k; i++)
     {
         arr[i] = sumTop(*k-i) + sumBottom(i);
-        printf("possible sum %d added to array\n", arr[i]);
     }
     arr[*k] = sumBottom(*k);
     int largest = 0;
@@ -114,7 +111,6 @@ void findLargestSum(int *x, int *k, int n)
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    traverse(temp);
     while(head->value >= temp->value && k >= 0)
     {
         // pop from back of stack while head is greater than bottom of stack
