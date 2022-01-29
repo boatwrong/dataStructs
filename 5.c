@@ -28,12 +28,11 @@ void popStack(int *x, int *k)
 {
     *x += head->value;
     head = head->next;
-    k--;
+    *k-=1;
 }
 
 void popQueue(int *x, int *k)
 {
-    printf("made it here\n");
 }
 
 void traverse(struct node* pointer, int x)
@@ -51,10 +50,8 @@ int sumTop(int x)
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
     int sum = 0;
-//    printf("For Top, adding: ");
     for(int i = 0; i < x; i++)
     {
-        printf("%d ", temp->value);
         sum += temp->value;
         temp = temp->next;
         if(temp->next == NULL)
@@ -62,7 +59,6 @@ int sumTop(int x)
             break;
         }
     }
-    printf("= %d\n", sum);
     return sum;
 }
 
@@ -90,10 +86,8 @@ void checkSum(int *x, int *k, int n)
     for(int i=0; i < *k; i++)
     {
         arr[i] = sumTop(*k-i) + sumBottom(n - i);
- //       printf("sum %d: %d + %d = %d\n", i+1, sumTop(*k-i), sumBottom(n - i), arr[i]);
     }
     arr[*k] = sumBottom(n - *k);
-  //  printf("sum %d = %d\n", *k +1 , arr[*k]);
     int largest = 0;
     for(int i =0; i<*k+1; i++)
     {
@@ -114,13 +108,12 @@ void findLargestSum(int *x, int *k, int n)
     {
         temp = temp->next;
     }
-    printf("tail value = %d\n", temp->value);
-    printf("head value = %d\n", head->value);
-    while(head->value > temp->value)
+    while(head->value > temp->value && *k > 0)
     {
         popStack(x, k);
         n--;
     }
+    printf("k is now %d\n", *k);
     checkSum(x, k, n);
 }
 
