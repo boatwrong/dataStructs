@@ -31,6 +31,10 @@ void popStack(int *x, int *k)
     *k-=1;
 }
 
+void popQueue(int *x, int *k)
+{
+}
+
 void traverse(struct node* pointer, int x)
 {
     // moves a pointer through stack x number of times
@@ -100,11 +104,16 @@ void findLargestSum(int *x, int *k, int n)
     struct node *temp = NULL;
     temp = (struct node*) malloc(sizeof(struct node*));
     temp = head;
-    while(head->value >= temp->value && k >= 0)
+    while(temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    while(head->value > temp->value && *k > 0)
     {
         popStack(x, k);
         n--;
     }
+    printf("k is now %d\n", *k);
     checkSum(x, k, n);
 }
 
