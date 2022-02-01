@@ -1,1 +1,8 @@
 How is an array different from a linked list
+
+An array differs from a linked list in it's storage in memory. Whether the size is determined at compile time or runtime, a contiguous block of memory is allocated to an array.
+
+Arrays support random access of any element in the array while this cannot be done with a linked list.
+
+Linked lists allow or insertion or removal of elements without disturbing the rest of the list while an array must shift all elements to remain a continuous block of memory, not to mention if inserting an element requires increasing the array's size. Since that cannot be done an entire new block of memory would need to be allocated to copy the old array with the inserted element.
+

@@ -1,3 +1,6 @@
 Compare and contrast bubble sort, insertion sort and quicksort. Provide pros and cons of each and when they would/wouldn't be appropriate to use.
 
-
+Quick sort is different from insertion sort and bubble sort because it is recursive.
+In terms of time complexity, all three share the same worst case at O(n^2). For insertion sort and bubble sort, the best case time complexity is O(n) while the best case for quick sort is O(n * log(n)).
+Quicksort is less likely to have worst case time complexity than insertion sort or bubble sort however.
+The best use case for insertion sort or bubble sort would be a nearly sorted list while unsorted lists and a need for efficiency would warrant the use of quicksort.
