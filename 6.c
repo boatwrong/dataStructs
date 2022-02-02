@@ -2,12 +2,9 @@
 #include<stdlib.h>
 #include<string.h>
 
-char* takeInput(char* string)
+void takeInput(char* string)
 {
-
     //TODO Figure out why string in put not working...
-
-
     int length = 0;
     char c = '!';
     string = (char *) malloc(sizeof(char));
@@ -16,12 +13,12 @@ char* takeInput(char* string)
         exit(1);
     }
     length++;
-    while((c = getchar()) != ' ' && c != '\n')
+    while((c = getchar()) != '\n')
     {
         string = realloc(string, (sizeof(char) * length + 1));
+        length++;
     }
     printf("here\n");
-    return string;
 }
 
 int main(int argc, char *argv[])
@@ -33,12 +30,9 @@ int main(int argc, char *argv[])
     for(int i=0; i<x; i++)
     {
         printf("test %d\n", i+1);
-        t = takeInput(t);
+        takeInput(t);
     }
-    for(int i=0; i < strlen(t); i++)
-    {
-        printf("%c", t[i]);
-    }
+    printf("%lu", strlen(t));
     printf("\n");
     return 0;
 }
