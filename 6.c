@@ -2,38 +2,22 @@
 #include<stdlib.h>
 #include<string.h>
 
-void takeInput(char* string)
+#define MAX_WORD_SIZE 100
+
+typedef struct {
+    char* word[MAX_WORD_SIZE];
+
+}person ;
+
+person tmp;
+
+int hash(char* word)
 {
-    //TODO Figure out why string in put not working...
-    int length = 0;
-    char c = '!';
-    string = (char *) malloc(sizeof(char));
-    if(string == NULL)
-    {
-        exit(1);
-    }
-    length++;
-    while((c = getchar()) != '\n')
-    {
-        string = realloc(string, (sizeof(char) * length + 1));
-        length++;
-    }
-    printf("here\n");
+    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    int x;
-    char* t;
-    printf("input # of tests\n");
-    scanf("%d", &x);
-    for(int i=0; i<x; i++)
-    {
-        printf("test %d\n", i+1);
-        takeInput(t);
-    }
-    printf("%lu", strlen(t));
-    printf("\n");
     return 0;
 }
 
