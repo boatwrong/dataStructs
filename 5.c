@@ -101,19 +101,19 @@ void checkSum(int *x, int *k, int n)
 
 void findLargestSum(int *x, int *k, int n)
 {
-    struct node *temp = NULL;
-    temp = (struct node*) malloc(sizeof(struct node*));
-    temp = head;
-    while(temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    while(head->value > temp->value && *k > 0)
-    {
-        popStack(x, k);
-        n--;
-    }
-    printf("k is now %d\n", *k);
+    // struct node *temp = NULL;
+    // temp = (struct node*) malloc(sizeof(struct node*));
+    // temp = head;
+    // while(temp->next != NULL)
+    // {
+    //     temp = temp->next;
+    // }
+    // while(head->value > temp->value && *k > 0)
+    // {
+    //     popStack(x, k);
+    //     n--;
+    // }
+    // printf("sum before changeing to queue: %d\n", *x);
     checkSum(x, k, n);
 }
 

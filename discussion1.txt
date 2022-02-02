@@ -1,3 +1,11 @@
-Hello,
+What are data structures?
 
-My name is Bryant Boatright, and I am studying mechanical engineering with a minor in computer science. I'm excited to become more comfortable in C/C++ while learning the different structures. I am currently not employed and just taking classes. My main hobby would be cooking, either learning new dishes or techniques is what I enjoy spending my free time doing.
+Data structures are a manner in which memory is managed and utilized in a computer.
+
+3 examples:
+
+A set of usernames and passwords stored in a hash map for a high traffic website where fast lookup time for the usernames is important and usernames need to be unique.
+
+A linked list is a useful data structure in an application where memory use is restricted instead of a predefined array.
+
+A good use for an array is when working with a set of numbers that you need to do calculations on, such as max, min, avg, sum, etc.
