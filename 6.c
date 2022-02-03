@@ -24,15 +24,15 @@ void takeInput(char *word)
     fgets(word, MAX_WORD_SIZE, stdin);
 }
 
-int checkDuplicates(char *S, char *T, int listSize)
+int checkDuplicates(char *S, char *T)
 {
+    // isue is maybe in here...
     int instanceT = 0;
     int instanceS = 0;
     int count = 0;
-    for(int i=0; i < listSize; i++)
+    for(int i=0; i <strlen(S); i++)
     {
-        printf("checking letter %c\n", S[i]);
-        for(int j=0; i<listSize; i++)
+        for(int j=0; i<strlen(T); i++)
         {
             if(T[j] == S[i])
             {
@@ -43,13 +43,13 @@ int checkDuplicates(char *S, char *T, int listSize)
                 instanceS++;
             }
         }
-        if(instanceS != instanceT)
+        count += instanceS - instanceT;
+        for(int i=0; i<(instanceS - instanceT); i++)
         {
             T[strlen(T)] = S[i];
-            count++;
         }
     }
-    return true;
+    return count;
 }
 
 int addToT(char *S, char *T, int listSize)
@@ -70,7 +70,7 @@ int addToT(char *S, char *T, int listSize)
             T[listSize] = S[i];
             count++;
         }
-        count += checkDuplicates(S,T,listSize);
+        count += checkDuplicates(S,T);   
     }
     return count;
 }
@@ -119,10 +119,9 @@ int main(int argc, char *argv[])
         takeInput(tmp.T);
         if(hash(tmp.S) != hash(tmp.T))
         {
-            printf("words are not anagrams\n");
+            numTests[i] += removeFromT(tmp.S, tmp.T, strlen(tmp.S));
             numTests[i] += addToT(tmp.S, tmp.T, strlen(tmp.S));
-            removeFromT(tmp.S, tmp.T, strlen(tmp.S));
-            numTests[i]*=2;
+            //numTests[i]*=2;
         }
     }
     for(int i=0; i<listSize; i++)
