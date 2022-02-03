@@ -24,7 +24,7 @@ void takeInput(char *word)
     fgets(word, MAX_WORD_SIZE, stdin);
 }
 
-bool checkDuplicates(char *S, char *T, int listSize)
+int checkDuplicates(char *S, char *T, int listSize)
 {
     int instanceT = 0;
     int instanceS = 0;
@@ -67,8 +67,10 @@ int addToT(char *S, char *T, int listSize)
         }
         if(!TcontainsChar)
         {
+            T[listSize] = S[i];
             count++;
         }
+        count += checkDuplicates(S,T,listSize);
     }
     return count;
 }
@@ -117,12 +119,12 @@ int main(int argc, char *argv[])
         takeInput(tmp.T);
         if(hash(tmp.S) != hash(tmp.T))
         {
+            printf("words are not anagrams\n");
             numTests[i] += addToT(tmp.S, tmp.T, strlen(tmp.S));
             removeFromT(tmp.S, tmp.T, strlen(tmp.S));
             numTests[i]*=2;
         }
     }
-
     for(int i=0; i<listSize; i++)
     {
         printf("%d\n", numTests[i]);
