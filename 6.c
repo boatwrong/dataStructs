@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
+#include<stdlib.h>
 
 #define MAX_WORD_SIZE 15
 
@@ -24,15 +25,75 @@ void takeInput(char *word)
     fgets(word, MAX_WORD_SIZE, stdin);
 }
 
+void append(char *T, char c)
+{
+    T[strlen(T)] = c;
+}
+
+void removeChar(char *T, int idx)
+{
+    printf("removing %c\n", T[idx]);
+    for(int i=idx; i<strlen(T) - 1; i++)
+    {
+        T[i] = T[i+1];
+    }
+    T[strlen(T)-1] = '\0';
+}
+
+void otherRemove(char *T, char c)
+{
+    int i=0;
+    while(T[i] != c)
+    {
+        i++;
+    }
+    removeChar(T, i);
+}
+
+
+int duplicates(char *S, char *T)
+{
+    printf("duplicate function\n");
+    int count = 0;
+    int inS = 0;
+    int inT = 0;
+    for(int i=0; i<strlen(S); i++)
+    {
+        printf("checking %c\n", S[i]);
+        for(int k=0; k<strlen(S); k++)
+        {
+            if(S[k] == S[i] && k != i)
+            {
+                inS++;
+            }
+        }
+        for(int j=0; j<strlen(T); j++)
+        {
+            if(S[i] == T[j])
+            {
+                inT++;
+            }
+        }
+
+        if(inS < inT)
+        {
+            printf("removing %c from T\n", S[i]);
+            otherRemove(T, S[i]);
+            count++;
+        }
+    }
+    return 0;
+}
+
 int checkDuplicates(char *S, char *T)
 {
-    // isue is maybe in here...
-    int instanceT = 0;
-    int instanceS = 0;
+    int instanceT, instanceS;
     int count = 0;
     for(int i=0; i <strlen(S); i++)
     {
-        for(int j=0; i<strlen(T); i++)
+        instanceS = 0;
+        instanceT = 0;
+        for(int j=0; j<strlen(S); j++)
         {
             if(T[j] == S[i])
             {
@@ -43,11 +104,7 @@ int checkDuplicates(char *S, char *T)
                 instanceS++;
             }
         }
-        count += instanceS - instanceT;
-        for(int i=0; i<(instanceS - instanceT); i++)
-        {
-            T[strlen(T)] = S[i];
-        }
+        count += abs(instanceS - instanceT);
     }
     return count;
 }
@@ -70,18 +127,10 @@ int addToT(char *S, char *T, int listSize)
             T[listSize] = S[i];
             count++;
         }
-        count += checkDuplicates(S,T);   
     }
+    count += duplicates(S,T);   
+    printf("Count from adding function: %d\n", count);
     return count;
-}
-
-void removeChar(char *T, int idx)
-{
-    for(int i=idx; i<strlen(T) - 1; i++)
-    {
-        T[i] = T[i+1];
-    }
-    T[strlen(T)] = '\0';
 }
 
 int removeFromT(char *S, char *T, int length)
@@ -119,7 +168,7 @@ int main(int argc, char *argv[])
         takeInput(tmp.T);
         if(hash(tmp.S) != hash(tmp.T))
         {
-            numTests[i] += removeFromT(tmp.S, tmp.T, strlen(tmp.S));
+            removeFromT(tmp.S, tmp.T, strlen(tmp.S));
             numTests[i] += addToT(tmp.S, tmp.T, strlen(tmp.S));
             //numTests[i]*=2;
         }
