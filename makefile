@@ -1,5 +1,5 @@
 6:	6.c
-	gcc -o a.out 6.c
+	gcc -o a.out data_structs.c
 
 5:	5.c
 	gcc -o a.out 5.c
