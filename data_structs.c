@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdbool.h>
 
-#define MAX_WORD_SIZE 12
+#define MAX_WORD_SIZE 22
 
 typedef struct {
     char T[MAX_WORD_SIZE];
