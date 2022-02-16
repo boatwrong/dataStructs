@@ -299,7 +299,10 @@ int main(int argc, char *argv[])
         takeInput(tmp.S);
         takeInput(tmp.T);
 
-        numTests[i] += makeMethodNameBetter(tmp.S,tmp.T);
+        if(strlen(tmp.S) != strlen(tmp.T))
+        {
+            numTests[i] += makeMethodNameBetter(tmp.S,tmp.T);
+        }
         if(hasDuplicates(tmp.S) || hasDuplicates(tmp.T))
         {
             hasDups = true;
