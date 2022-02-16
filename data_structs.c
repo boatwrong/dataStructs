@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdbool.h>
 
-#define MAX_WORD_SIZE 11
+#define MAX_WORD_SIZE 12
 
 typedef struct {
     char T[MAX_WORD_SIZE];
@@ -262,20 +262,21 @@ int makeMethodNameBetter(char *S, char *T)
     int i;
     if(strlen(T) > strlen(S))
     {
-        i=0;
+        i=strlen(T);
         while(strlen(T) > strlen(S))
         {
             count += removeChar(T, i);
-            i++;
+            i--;
         }
     }
+    
     if(strlen(T) < strlen(S))
     {
-        i=0;
+        i=strlen(S);
         while(strlen(T) < strlen(S))
         {
-            count += addChar(T, S[i]);
-            i++;
+            count += addChar(T, S[i-1]);
+            i--;
         }
     }
 
@@ -309,15 +310,17 @@ int main(int argc, char *argv[])
         }
         if(hash(tmp.S) != hash(tmp.T))
         {
-            if(hasDups)
-            {
-                while(!stillUnevenDups(tmp.S, tmp.T) && counter < 20) 
-                {
-                    //TODO infinite loop here...
-                    numTests[i]+=fixDuplicates(tmp.S, tmp.T);
-                    counter++;
-                }
-            }
+            // if(hasDups)
+            // {
+            //     while(!stillUnevenDups(tmp.S, tmp.T) && counter < 20) 
+            //     {
+            //         //TODO infinite loop here...
+            //         numTests[i]+=fixDuplicates(tmp.S, tmp.T);
+            //         counter++;
+            //     }
+            // }
+            // numTests[i] += findBadChar(tmp.S, tmp.T);
+            numTests[i]+=fixDuplicates(tmp.S, tmp.T);
             numTests[i] += findBadChar(tmp.S, tmp.T);
         }
     }
