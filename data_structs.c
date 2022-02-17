@@ -24,6 +24,7 @@ bool contains(char *str, char c)
 
 int removeChar(char *T, int idx)
 {
+    printf("removing %c\n", T[idx]);
     for(int i=idx; i<strlen(T) - 1; i++)
     {
         T[i] = T[i+1];
@@ -34,6 +35,7 @@ int removeChar(char *T, int idx)
 
 int addChar(char *T, char c)
 {
+    printf("adding %c\n", c);
     int i=0;
     while(T[i] != '\0')
     {
@@ -244,15 +246,18 @@ int fixDuplicates(char *S, char *T)
         {
             removeChar(T, i);
             findMissing(S,T);
+            printf("duplicate in T returning 2\n");
             return 2;
         }
         if(countInS > countInT)
         {
             addChar(T, T[i]);
             findExtras(S, T);
+            printf("duplicate in S returning 2\n");
             return 2;
         }
     }
+            printf("duplicate method returning 0\n");
     return 0;
 }
 
@@ -280,6 +285,7 @@ int makeMethodNameBetter(char *S, char *T)
         }
     }
 
+            printf("diff length method returning %d\n", count);
     return count;
 }
 
@@ -304,24 +310,17 @@ int main(int argc, char *argv[])
         {
             numTests[i] += makeMethodNameBetter(tmp.S,tmp.T);
         }
-        if(hasDuplicates(tmp.S) || hasDuplicates(tmp.T))
-        {
-            hasDups = true;
-        }
         if(hash(tmp.S) != hash(tmp.T))
         {
-            // if(hasDups)
-            // {
-            //     while(!stillUnevenDups(tmp.S, tmp.T) && counter < 20) 
-            //     {
-            //         //TODO infinite loop here...
-            //         numTests[i]+=fixDuplicates(tmp.S, tmp.T);
-            //         counter++;
-            //     }
-            // }
-            // numTests[i] += findBadChar(tmp.S, tmp.T);
-            numTests[i]+=fixDuplicates(tmp.S, tmp.T);
+            printf("here...");
             numTests[i] += findBadChar(tmp.S, tmp.T);
+            if(hasDuplicates(tmp.S) || hasDuplicates(tmp.T))
+            {
+                while(stillUnevenDups(tmp.S, tmp.T))
+                {
+                    numTests[i]+=fixDuplicates(tmp.S, tmp.T);
+                }
+            }
         }
     }
     for(int i=0; i<listSize; i++)
