@@ -89,7 +89,6 @@ int checkLength(char *S, char *T)
                     count++;
                 }
             }
-
         }
     }
     else if(strlen(T) > strlen(S))
@@ -217,6 +216,28 @@ int fixHash(char *S, char *T)
     return operations;
 }
 
+int fixBasic(char *S, char *T)
+{
+    int count = 0;
+    for(int i=0; i<strlen(T); i++)
+    {
+        if(!contains(S, T[i]))
+        {
+            removeChar(T, i);
+            count++;
+        }
+    }
+    for(int i=0; i<strlen(S); i++)
+    {
+        if(!contains(T, S[i]))
+        {
+            addChar(T, S[i]);
+            count++;
+        }
+    }
+    return count;
+}
+
 int main(int argc, char *argv[])
 {
     int counter;
@@ -242,11 +263,3 @@ int main(int argc, char *argv[])
     }
     return 0;
 }
-
-
-
-
-
-
-
-
