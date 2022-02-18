@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdbool.h>
 
-#define MAX_WORD_SIZE 12
+#define MAX_WORD_SIZE 100
 
 typedef struct {
     char T[MAX_WORD_SIZE];
@@ -37,8 +37,10 @@ void trim(char *str)
 
 void takeInput(char *word)
 {
-    fgets(word, MAX_WORD_SIZE, stdin);
-    trim(word);
+    char x[MAX_WORD_SIZE];
+    fgets(x, MAX_WORD_SIZE, stdin);
+    sscanf(x, "%s", word);
+    // trim(word);
 }
 
 void removeChar(char *T, int idx)
@@ -48,6 +50,17 @@ void removeChar(char *T, int idx)
         T[i] = T[i+1];
     }
     T[strlen(T) - 1] = '\0';
+}
+
+void addChar(char *T, char c)
+{
+    int i=0;
+    while(T[i] != '\0')
+    {
+        i++;
+    }
+    T[i] = c;
+    T[i+1] = '\0';  
 }
 
 bool contains(char *str, char c)
@@ -63,15 +76,18 @@ bool contains(char *str, char c)
     return contains;
 }
 
-void addChar(char *T, char c)
+int fixLonger(char *S, char *T)
 {
-    int i=0;
-    while(T[i] != '\0')
+    int count = 0;
+    for(int i=0; i<strlen(S); i++)
     {
-        i++;
+        if(!contains(T, S[i]))
+        {
+            addChar(T, S[i]);
+            count++;
+        }
     }
-    T[i] = c;
-    T[i+1] = '\0';  
+    return count;
 }
 
 int checkLength(char *S, char *T)
@@ -79,21 +95,13 @@ int checkLength(char *S, char *T)
     int count = 0;
     if(strlen(S) > strlen(T))
     {
-        while(strlen(S) > strlen(T))
-        {
-            for(int i=0; i<strlen(S); i++)
-            {
-                if(!contains(T, S[i]))
-                {
-                    addChar(T, S[i]);
-                    count++;
-                }
-            }
-        }
+        count+=fixLonger(S,T);
+        return count;
     }
+
     else if(strlen(T) > strlen(S))
     {
-        while(strlen(T) > strlen(S))
+        while(strlen(T) != strlen(S))
         {
             removeChar(T, strlen(T) - 1);
             count++;
@@ -107,62 +115,6 @@ int getInput(char *S, char *T)
     takeInput(S);
     takeInput(T);
     return checkLength(S,T);
-}
-
-void findMissing(char *S, char *T)
-{
-    int Scount = 0;
-    int Tcount = 0;
-    for(int i = 0; i < strlen(T); i++)
-    {
-        for(int j = 0; j < strlen(S); j++)
-        {
-            if(S[i] == S[j])
-            {
-                Scount++;
-            }
-        }
-        for(int j = 0; j<strlen(T); j++)
-        {
-            if(S[i] == T[j])
-            {
-                Tcount++;
-            }
-        }
-        if(Tcount < Scount)
-        {
-            addChar(T, S[i]);
-            return;
-        }
-    }
-}
-
-void findExtras(char *S, char *T)
-{
-    int Scount = 0;
-    int Tcount = 0;
-    for(int i = 0; i < strlen(T); i++)
-    {
-        for(int j = 0; j < strlen(S); j++)
-        {
-            if(T[i] == S[j])
-            {
-                Scount++;
-            }
-        }
-        for(int j = 0; j<strlen(T); j++)
-        {
-            if(T[i] == T[j])
-            {
-                Tcount++;
-            }
-        }
-        if(Tcount > Scount)
-        {
-            removeChar(T, i);
-            return;
-        }
-    }
 }
 
 int getIndex(char *T, char c)
@@ -181,10 +133,13 @@ int getIndex(char *T, char c)
 int fixHash(char *S, char *T)
 {
     int operations = 0;
-    int countInS = 0;
-    int countInT = 0;
+    int countInS;
+    int countInT;
+
     for(int i=0; i< strlen(S); i++)
     {
+        countInS = 0;
+        countInT = 0;
         for(int j=0; j<strlen(S); j++)
         {
             if(S[i] == S[j])
@@ -192,6 +147,7 @@ int fixHash(char *S, char *T)
                 countInS++;
             }
         }
+
         for(int j=0; j<strlen(T); j++)
         {
             if(S[i] == T[j])
@@ -200,42 +156,59 @@ int fixHash(char *S, char *T)
             }
         
         }
+
         if(countInS > countInT)
         {
             addChar(T, S[i]);
-            findExtras(S, T);
-            operations += 2;
+            operations++;
         }
         if(countInT > countInS)
         {
             removeChar(T, getIndex(T, S[i]));
-            findMissing(S,T);
-            operations += 2;
+            operations++;
         }
+    }
+
+
+    for(int i=0; i< strlen(T); i++)
+    {
+        countInS = 0;
+        countInT = 0;
+        for(int j=0; j<strlen(S); j++)
+        {
+            if(T[i] == S[j])
+            {
+                countInS++;
+            }
+        }
+        
+        for(int j=0; j<strlen(T); j++)
+        {
+            if(T[i] == T[j])
+            {
+                countInT++;
+            }
+        
+        }
+
+        while(countInS > countInT)
+        {
+            addChar(T, T[i]);
+            countInT++;
+            operations++;
+        }
+        while(countInT > countInS)
+        {
+            removeChar(T, getIndex(T, T[i]));
+            countInT--;
+            operations++;
+        }
+    }
+    if(strlen(S) != strlen(T))
+    {
+        operations += fixHash(S,T);
     }
     return operations;
-}
-
-int fixBasic(char *S, char *T)
-{
-    int count = 0;
-    for(int i=0; i<strlen(T); i++)
-    {
-        if(!contains(S, T[i]))
-        {
-            removeChar(T, i);
-            count++;
-        }
-    }
-    for(int i=0; i<strlen(S); i++)
-    {
-        if(!contains(T, S[i]))
-        {
-            addChar(T, S[i]);
-            count++;
-        }
-    }
-    return count;
 }
 
 int main(int argc, char *argv[])
@@ -248,12 +221,12 @@ int main(int argc, char *argv[])
 
     for(int i=0; i<listSize; i++)
     {
-        counter = 0;
         numTests[i] = 0;
         numTests[i] += getInput(tmp.S, tmp.T);
         if(hash(tmp.S) != hash(tmp.T))
         {
             numTests[i] += fixHash(tmp.S, tmp.T);
+            //numTests[i] += fixBasic(tmp.S, tmp.T);
         }
     }
 
