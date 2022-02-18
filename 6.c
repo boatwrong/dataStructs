@@ -40,7 +40,6 @@ void takeInput(char *word)
     char x[MAX_WORD_SIZE];
     fgets(x, MAX_WORD_SIZE, stdin);
     sscanf(x, "%s", word);
-    // trim(word);
 }
 
 void removeChar(char *T, int idx)
@@ -98,7 +97,6 @@ int checkLength(char *S, char *T)
         count+=fixLonger(S,T);
         return count;
     }
-
     else if(strlen(T) > strlen(S))
     {
         while(strlen(T) != strlen(S))
@@ -135,7 +133,6 @@ int fixHash(char *S, char *T)
     int operations = 0;
     int countInS;
     int countInT;
-
     for(int i=0; i< strlen(S); i++)
     {
         countInS = 0;
@@ -147,7 +144,6 @@ int fixHash(char *S, char *T)
                 countInS++;
             }
         }
-
         for(int j=0; j<strlen(T); j++)
         {
             if(S[i] == T[j])
@@ -156,7 +152,6 @@ int fixHash(char *S, char *T)
             }
         
         }
-
         if(countInS > countInT)
         {
             addChar(T, S[i]);
@@ -190,7 +185,6 @@ int fixHash(char *S, char *T)
             }
         
         }
-
         while(countInS > countInT)
         {
             addChar(T, T[i]);
@@ -218,7 +212,6 @@ int main(int argc, char *argv[])
     scanf("%d%*c", &listSize);
     int numTests[listSize];
     test tmp;
-
     for(int i=0; i<listSize; i++)
     {
         numTests[i] = 0;
@@ -226,10 +219,8 @@ int main(int argc, char *argv[])
         if(hash(tmp.S) != hash(tmp.T))
         {
             numTests[i] += fixHash(tmp.S, tmp.T);
-            //numTests[i] += fixBasic(tmp.S, tmp.T);
         }
     }
-
     for(int i=0; i<listSize; i++)
     {
         printf("%d\n", numTests[i]);
