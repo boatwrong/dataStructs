@@ -1,1 +1,5 @@
 In your own words, define what a hash table is/does and why you would use one - give 3 concrete examples.
+
+A hash table is a a structure that stores data using a hash function which computes an index based on the data given. With an appropriate hash function and memory allotment, the lookup time complexity of a hash table could be O(1).
+
+Three uses for a hash table would be storage for passwords used for a website login so that the literal passwords are not in the database maintained by the website, storing a large amount of unique data where quick searching is a requirement for storing the data, and for storing data when you have a large number of unique data such as a dictionary or phone book.
