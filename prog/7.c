@@ -4,15 +4,17 @@
 struct node
 {
     int value;
+    int depth;
     struct node *left;
     struct node *right;
 }; 
 
 // new node {{{
-struct node* newNode(int value) 
+struct node* newNode(int value, int depth) 
 {
     struct node *new = (struct node*) malloc(sizeof(struct node*));
     new->value = value;
+    new->depth = depth;
     new->left = NULL;
     new->right = NULL;
     return new;
@@ -20,19 +22,21 @@ struct node* newNode(int value)
 // }}}
 
 // insert {{{
-struct node* insert(struct node* tmp, int value)
+struct node* insert(struct node* tmp, int value, int depth)
 {
     if(tmp == NULL)
     {
-        return newNode(value);
+        return newNode(value, depth);
     }
     if(value < tmp->value)
     {
-        tmp->left = insert(tmp->left, value);
+        depth++;
+        tmp->left = insert(tmp->left, value, depth);
     }
     else if(value > tmp->value)
     {
-        tmp->right = insert(tmp->left, value);
+        depth++;
+        tmp->right = insert(tmp->left, value, depth);
     }
     else
     {
@@ -43,19 +47,20 @@ struct node* insert(struct node* tmp, int value)
 // }}}
 
 // traverse {{{
-int* traverse(struct node* node, int *idx)
+int* traverse(struct node* node, int *max)
 {
     if(node == NULL)
     {
-        idx++;
-        return idx;
+        return max;
     }
-    printf("here\n");
-
-    traverse(node->left, idx);
-    traverse(node->right, idx);
-    idx++;
-    return idx;
+    
+    if(node->depth > *max)
+    {
+        *max = node->depth;
+    }
+    traverse(node->left, max);
+    traverse(node->right, max);
+    return max;
 }
 // }}}
 
@@ -72,18 +77,19 @@ int main()
 
         scanf("%d", &x);
         struct node *head = NULL;
-        head = newNode(x);
+        head = newNode(x,1);
+        head->depth = 1;
 
         for(int i=0; i<numNodes-1; i++)
         {
             scanf("%d", &x);
-            insert(head, x);
+            insert(head, x, head->depth);
         }
 
         struct node *tmp = head;
-        int idx = 0;
-        traverse(head, &idx);
-        printf("%d\n", idx);
+        int max = 0;
+        traverse(head, &max);
+        printf("%d\n", max);
 
     }
     return 0;
