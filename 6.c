@@ -1,9 +1,8 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdbool.h>
-#include<stdlib.h>
 
-#define MAX_WORD_SIZE 15
+#define MAX_WORD_SIZE 100
 
 typedef struct {
     char T[MAX_WORD_SIZE];
@@ -20,157 +19,206 @@ int hash(char *word)
     return sum;
 }
 
-void takeInput(char *word)
+void trim(char *str)
 {
-    fgets(word, MAX_WORD_SIZE, stdin);
+    char badChar = '\n';
+    for(int i=0; i<strlen(str); i++)
+    {
+        if(str[i] == badChar)
+        {
+            for(int j=i; i<strlen(str) - 1; i++)
+            {
+                str[i] = str[i+1];
+            }
+            str[strlen(str) - 1] = '\0';
+        }
+    }
 }
 
-void append(char *T, char c)
+void takeInput(char *word)
 {
-    T[strlen(T)] = c;
+    char x[MAX_WORD_SIZE];
+    fgets(x, MAX_WORD_SIZE, stdin);
+    sscanf(x, "%s", word);
 }
 
 void removeChar(char *T, int idx)
 {
-    printf("removing %c\n", T[idx]);
     for(int i=idx; i<strlen(T) - 1; i++)
     {
         T[i] = T[i+1];
     }
-    T[strlen(T)-1] = '\0';
+    T[strlen(T) - 1] = '\0';
 }
 
-void otherRemove(char *T, char c)
+void addChar(char *T, char c)
 {
     int i=0;
-    while(T[i] != c)
+    while(T[i] != '\0')
     {
         i++;
     }
-    removeChar(T, i);
+    T[i] = c;
+    T[i+1] = '\0';  
 }
 
-
-int duplicates(char *S, char *T)
+bool contains(char *str, char c)
 {
-    printf("duplicate function\n");
+    bool contains = false;
+    for(int i=0; i<strlen(str); i++)
+    {
+        if(str[i] == c)
+        {
+            contains = true;
+        }
+    }
+    return contains;
+}
+
+int fixLonger(char *S, char *T)
+{
     int count = 0;
-    int inS = 0;
-    int inT = 0;
     for(int i=0; i<strlen(S); i++)
     {
-        printf("checking %c\n", S[i]);
-        for(int k=0; k<strlen(S); k++)
+        if(!contains(T, S[i]))
         {
-            if(S[k] == S[i] && k != i)
+            addChar(T, S[i]);
+            count++;
+        }
+    }
+    return count;
+}
+
+int checkLength(char *S, char *T)
+{
+    int count = 0;
+    if(strlen(S) > strlen(T))
+    {
+        count+=fixLonger(S,T);
+        return count;
+    }
+    else if(strlen(T) > strlen(S))
+    {
+        while(strlen(T) != strlen(S))
+        {
+            removeChar(T, strlen(T) - 1);
+            count++;
+        }
+    }
+    return count;
+}
+
+int getInput(char *S, char *T)
+{
+    takeInput(S);
+    takeInput(T);
+    return checkLength(S,T);
+}
+
+int getIndex(char *T, char c)
+{
+    int idx;
+    for(int i=0; i<strlen(T); i++)
+    {
+        if(T[i] == c)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int fixHash(char *S, char *T)
+{
+    int operations = 0;
+    int countInS;
+    int countInT;
+    for(int i=0; i< strlen(S); i++)
+    {
+        countInS = 0;
+        countInT = 0;
+        for(int j=0; j<strlen(S); j++)
+        {
+            if(S[i] == S[j])
             {
-                inS++;
+                countInS++;
             }
         }
         for(int j=0; j<strlen(T); j++)
         {
             if(S[i] == T[j])
             {
-                inT++;
+                countInT++;
             }
+        
         }
-
-        if(inS < inT)
+        if(countInS > countInT)
         {
-            printf("removing %c from T\n", S[i]);
-            otherRemove(T, S[i]);
-            count++;
+            addChar(T, S[i]);
+            operations++;
+        }
+        if(countInT > countInS)
+        {
+            removeChar(T, getIndex(T, S[i]));
+            operations++;
         }
     }
-    return 0;
-}
 
-int checkDuplicates(char *S, char *T)
-{
-    int instanceT, instanceS;
-    int count = 0;
-    for(int i=0; i <strlen(S); i++)
+
+    for(int i=0; i< strlen(T); i++)
     {
-        instanceS = 0;
-        instanceT = 0;
+        countInS = 0;
+        countInT = 0;
         for(int j=0; j<strlen(S); j++)
-        {
-            if(T[j] == S[i])
-            {
-                instanceT++;
-            }
-            if(S[j] == S[i])
-            {
-                instanceS++;
-            }
-        }
-        count += abs(instanceS - instanceT);
-    }
-    return count;
-}
-
-int addToT(char *S, char *T, int listSize)
-{
-    int count = 0;
-    for(int i=0; i<listSize;i++)
-    {
-        bool TcontainsChar = false;
-        for(int j=0; j<listSize; j++)
-        {
-            if(S[i] == T[j])
-            {
-                TcontainsChar = true;
-            }
-        }
-        if(!TcontainsChar)
-        {
-            T[listSize] = S[i];
-            count++;
-        }
-    }
-    count += duplicates(S,T);   
-    printf("Count from adding function: %d\n", count);
-    return count;
-}
-
-int removeFromT(char *S, char *T, int length)
-{
-    int count = 0;
-    for(int i=0; i<length;i++)
-    {
-        bool ScontainsChar = false;
-        for(int j=0; j<length; j++)
         {
             if(T[i] == S[j])
             {
-                ScontainsChar = true;
+                countInS++;
             }
         }
-        if(!ScontainsChar)
+        
+        for(int j=0; j<strlen(T); j++)
         {
-            removeChar(T, i);
-            count++;
+            if(T[i] == T[j])
+            {
+                countInT++;
+            }
+        
+        }
+        while(countInS > countInT)
+        {
+            addChar(T, T[i]);
+            countInT++;
+            operations++;
+        }
+        while(countInT > countInS)
+        {
+            removeChar(T, getIndex(T, T[i]));
+            countInT--;
+            operations++;
         }
     }
-    return count;
+    if(strlen(S) != strlen(T))
+    {
+        operations += fixHash(S,T);
+    }
+    return operations;
 }
 
 int main(int argc, char *argv[])
 {
+    int counter;
     int listSize;
-    int numTests[listSize];
     scanf("%d%*c", &listSize);
+    int numTests[listSize];
     test tmp;
     for(int i=0; i<listSize; i++)
     {
         numTests[i] = 0;
-        takeInput(tmp.S);
-        takeInput(tmp.T);
+        numTests[i] += getInput(tmp.S, tmp.T);
         if(hash(tmp.S) != hash(tmp.T))
         {
-            removeFromT(tmp.S, tmp.T, strlen(tmp.S));
-            numTests[i] += addToT(tmp.S, tmp.T, strlen(tmp.S));
-            //numTests[i]*=2;
+            numTests[i] += fixHash(tmp.S, tmp.T);
         }
     }
     for(int i=0; i<listSize; i++)
