@@ -10,11 +10,11 @@ struct node
 }; 
 
 // new node {{{
-struct node* newNode(int value, int depth) 
+struct node* newNode(int x, int y) 
 {
     struct node *new = (struct node*) malloc(sizeof(struct node*));
-    new->value = value;
-    new->depth = depth;
+    new->value = x;
+    new->depth = y;
     new->left = NULL;
     new->right = NULL;
     return new;
@@ -22,37 +22,35 @@ struct node* newNode(int value, int depth)
 // }}}
 
 // insert {{{
-struct node* insert(struct node* tmp, int value, int depth)
+struct node* insert(struct node* tmp, int x, int depth)
 {
     if(tmp == NULL)
     {
-        return newNode(value, depth);
+        return newNode(x, depth);
     }
-    if(value < tmp->value)
+    if(x < tmp->value)
     {
         depth++;
-        tmp->left = insert(tmp->left, value, depth);
+        tmp->left = insert(tmp->left, x, depth);
     }
-    else if(value > tmp->value)
+    else if(x > tmp->value)
     {
         depth++;
-        tmp->right = insert(tmp->left, value, depth);
+        tmp->right = insert(tmp->left, x, depth);
     }
-    else
-    {
-        printf("value is equal to node value\n");
-    }
+
     return tmp;
 }
 // }}}
 
 // traverse {{{
-int* traverse(struct node* node, int *max)
+void traverse(struct node* node, int *max)
 {
     if(node == NULL)
     {
-        return max;
+        return;
     }
+    printf("node: %d\tdepth: %d\n", node->value, node->depth);
     
     if(node->depth > *max)
     {
@@ -60,7 +58,19 @@ int* traverse(struct node* node, int *max)
     }
     traverse(node->left, max);
     traverse(node->right, max);
-    return max;
+    return;
+}
+// }}}
+
+// print left{{{
+
+void printLeft(struct node* node)
+{
+    printf("%d\n", node->value);
+    if(node->left != NULL)
+    {
+        printLeft(node->left);
+    }
 }
 // }}}
 
@@ -85,10 +95,10 @@ int main()
             scanf("%d", &x);
             insert(head, x, head->depth);
         }
-
         struct node *tmp = head;
+        printLeft(tmp);
         int max = 0;
-        traverse(head, &max);
+        //traverse(tmp, &max);
         printf("%d\n", max);
 
     }
