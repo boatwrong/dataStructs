@@ -8,6 +8,7 @@ struct node
     struct node *right;
 }; 
 
+// new node {{{
 struct node* newNode(int value) 
 {
     struct node *new = (struct node*) malloc(sizeof(struct node*));
@@ -16,48 +17,55 @@ struct node* newNode(int value)
     new->right = NULL;
     return new;
 }
+// }}}
 
+// insert {{{
 struct node* insert(struct node* tmp, int value)
 {
     if(tmp == NULL)
     {
         return newNode(value);
     }
-
     if(value < tmp->value)
     {
         tmp->left = insert(tmp->left, value);
     }
-    
     else if(value > tmp->value)
     {
         tmp->right = insert(tmp->left, value);
     }
-
     else
     {
         printf("value is equal to node value\n");
     }
     return tmp;
 }
+// }}}
 
-struct node* canGoLeft(struct node *node)
+// traverse {{{
+int* traverse(struct node* node, int *idx)
 {
-    printf("In can go left method\n");
-    if(node == NULL) 
+    if(node == NULL)
     {
-        printf("Returning null\n");
-        return NULL;
+        idx++;
+        return idx;
     }
-    return node->left;
-}
+    printf("here\n");
 
+    traverse(node->left, idx);
+    traverse(node->right, idx);
+    idx++;
+    return idx;
+}
+// }}}
+
+// main {{{
 int main()
 {
-//    int numTests;
-//    scanf("%d", &numTests);
-//    for(int k=0; k < numTests; k++)
-//    {
+    int y;
+    scanf("%d", &y);
+    for(int k=0; k<y; k++)
+    {
         int x, count;
         int numNodes;
         scanf("%d", &numNodes);
@@ -65,7 +73,6 @@ int main()
         scanf("%d", &x);
         struct node *head = NULL;
         head = newNode(x);
-        printf("%d\n", head->value);
 
         for(int i=0; i<numNodes-1; i++)
         {
@@ -73,26 +80,12 @@ int main()
             insert(head, x);
         }
 
-        count = 0;
-
-
         struct node *tmp = head;
+        int idx = 0;
+        traverse(head, &idx);
+        printf("%d\n", idx);
 
-        while(tmp != NULL)
-        {
-            printf("Head is not null\n");
-            count++;
-            tmp = canGoLeft(tmp);
-        }
-
-
-       // while(canGoLeft(head) != NULL)
-       // {
-       //     printf("Can go left\n");
-       //     count++;
-       // }
-        
-        printf("%d\n", count);
-//    }
+    }
     return 0;
 }
+// }}}
