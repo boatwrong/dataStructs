@@ -10,39 +10,43 @@ struct node
 
 struct node* newNode(int value) 
 {
-    struct node *node = (struct node*) malloc(sizeof(struct node*));
-    node->value = value;
-    node->left = NULL;
-    node->right = NULL;
-    return node;
+    struct node *new = (struct node*) malloc(sizeof(struct node*));
+    new->value = value;
+    new->left = NULL;
+    new->right = NULL;
+    return new;
 }
 
-struct node* insert(struct node* node, int value)
+struct node* insert(struct node* tmp, int value)
 {
-    if(node == NULL)
+    if(tmp == NULL)
     {
         return newNode(value);
     }
 
-    if(value < node->value)
+    if(value < tmp->value)
     {
-        node->left = insert(node->left, value);
+        tmp->left = insert(tmp->left, value);
     }
-    else if(value > node->value)
+    
+    else if(value > tmp->value)
     {
-        node->right = insert(node->left, value);
+        tmp->right = insert(tmp->left, value);
     }
+
     else
     {
         printf("value is equal to node value\n");
     }
-    return node;
+    return tmp;
 }
 
 struct node* canGoLeft(struct node *node)
 {
-    if(node == NULL || node->left == NULL)
+    printf("In can go left method\n");
+    if(node == NULL) 
     {
+        printf("Returning null\n");
         return NULL;
     }
     return node->left;
@@ -50,17 +54,18 @@ struct node* canGoLeft(struct node *node)
 
 int main()
 {
-    int numTests;
-    scanf("%d", &numTests);
-    for(int k=0; k < numTests; k++)
-    {
+//    int numTests;
+//    scanf("%d", &numTests);
+//    for(int k=0; k < numTests; k++)
+//    {
         int x, count;
         int numNodes;
         scanf("%d", &numNodes);
 
         scanf("%d", &x);
         struct node *head = NULL;
-        head = insert(head, x);
+        head = newNode(x);
+        printf("%d\n", head->value);
 
         for(int i=0; i<numNodes-1; i++)
         {
@@ -69,11 +74,25 @@ int main()
         }
 
         count = 0;
-        do {
+
+
+        struct node *tmp = head;
+
+        while(tmp != NULL)
+        {
+            printf("Head is not null\n");
             count++;
-        } while(canGoLeft(head) != NULL);
+            tmp = canGoLeft(tmp);
+        }
+
+
+       // while(canGoLeft(head) != NULL)
+       // {
+       //     printf("Can go left\n");
+       //     count++;
+       // }
         
         printf("%d\n", count);
-    }
+//    }
     return 0;
 }
