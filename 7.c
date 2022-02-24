@@ -8,38 +8,72 @@ struct node
     struct node *right;
 }; 
 
-struct node* newNode(int value)
+struct node* newNode(int value) 
 {
-    struct node *new = (struct node *)malloc(sizeof(struct node));
-    new->value = value;
-    new->left = NULL;
-    new-> right = NULL;
-    return new;
+    struct node *node = (struct node*) malloc(sizeof(struct node*));
+    node->value = value;
+    node->left = NULL;
+    node->right = NULL;
+    return node;
 }
 
-struct node* insert(struct node* leaf, int value)
+struct node* insert(struct node* node, int value)
 {
-    if(leaf == NULL)
+    if(node == NULL)
     {
         return newNode(value);
     }
-    else if(leaf->left == NULL)
+
+    if(value < node->value)
     {
-        leaf->left = newNode(value);
+        node->left = insert(node->left, value);
     }
-    else if(leaf->right == NULL)
+    else if(value > node->value)
     {
-        leaf->right = newNode(value);
+        node->right = insert(node->left, value);
     }
-    return leaf;
+    else
+    {
+        printf("value is equal to node value\n");
+    }
+    return node;
 }
 
-int main(int argc, char *argv[])
+struct node* canGoLeft(struct node *node)
 {
-    int numTests, numNodes;
-    scanf("%d", &numTests);
-    scanf("%d", &numNodes);
+    if(node == NULL || node->left == NULL)
+    {
+        return NULL;
+    }
+    return node->left;
+}
 
+int main()
+{
+    int numTests;
+    scanf("%d", &numTests);
+    for(int k=0; k < numTests; k++)
+    {
+        int x, count;
+        int numNodes;
+        scanf("%d", &numNodes);
+
+        scanf("%d", &x);
+        struct node *head = NULL;
+        head = insert(head, x);
+
+        for(int i=0; i<numNodes-1; i++)
+        {
+            scanf("%d", &x);
+            insert(head, x);
+        }
+
+        count = 0;
+        do {
+            count++;
+        } while(canGoLeft(head) != NULL);
+        
+        printf("%d\n", count);
+    }
     return 0;
 }
-
