@@ -1,5 +1,9 @@
+// boiler {{{
 #include<stdio.h>
 #include<stdlib.h>
+#define ROOT 1
+
+typedef struct node node;
 
 struct node
 {
@@ -8,16 +12,17 @@ struct node
     struct node *left;
     struct node *right;
 }; 
+// }}}
 
 // new node {{{
 struct node* newNode(int x, int y) 
 {
-    struct node *new = (struct node*) malloc(sizeof(struct node*));
-    new->value = x;
-    new->depth = y;
-    new->left = NULL;
-    new->right = NULL;
-    return new;
+    struct node *tmp = (node *) malloc(sizeof(node));
+    tmp->value = x;
+    tmp->depth = y;
+    tmp->left = NULL;
+    tmp->right = NULL;
+    return tmp;
 }
 // }}}
 
@@ -28,11 +33,13 @@ struct node* insert(struct node* tmp, int x, int depth)
     {
         return newNode(x, depth);
     }
-    if(x < tmp->value)
+
+    else if(x < tmp->value)
     {
         depth++;
         tmp->left = insert(tmp->left, x, depth);
     }
+
     else if(x > tmp->value)
     {
         depth++;
@@ -50,7 +57,6 @@ void traverse(struct node* node, int *max)
     {
         return;
     }
-    printf("node: %d\tdepth: %d\n", node->value, node->depth);
     
     if(node->depth > *max)
     {
@@ -77,29 +83,29 @@ void printLeft(struct node* node)
 // main {{{
 int main()
 {
-    int y;
-    scanf("%d", &y);
-    for(int k=0; k<y; k++)
+    int numTests;
+    scanf("%d", &numTests);
+    for(int k=0; k<numTests; k++)
     {
-        int x, count;
+        int nodeValue, count;
         int numNodes;
         scanf("%d", &numNodes);
 
-        scanf("%d", &x);
+        scanf("%d", &nodeValue);
         struct node *head = NULL;
-        head = newNode(x,1);
-        head->depth = 1;
+        head = newNode(nodeValue, ROOT);
+        head->depth = ROOT;
 
         for(int i=0; i<numNodes-1; i++)
         {
-            scanf("%d", &x);
-            insert(head, x, head->depth);
+            scanf("%d", &nodeValue);
+            insert(head, nodeValue, ROOT);
         }
         struct node *tmp = head;
-        printLeft(tmp);
+        //printLeft(tmp);
         int max = 0;
-        //traverse(tmp, &max);
-        printf("%d\n", max);
+        traverse(head, &max);
+        printf("%d\n", max+1);
 
     }
     return 0;
