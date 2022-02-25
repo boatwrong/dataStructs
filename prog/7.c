@@ -15,11 +15,11 @@ struct node
 // }}}
 
 // new node {{{
-struct node* newNode(int x, int y) 
+struct node* newNode(int nodeValue, int nodeDepth) 
 {
     struct node *tmp = (node *) malloc(sizeof(node));
-    tmp->value = x;
-    tmp->depth = y;
+    tmp->value = nodeValue;
+    tmp->depth = nodeDepth;
     tmp->left = NULL;
     tmp->right = NULL;
     return tmp;
@@ -27,23 +27,23 @@ struct node* newNode(int x, int y)
 // }}}
 
 // insert {{{
-struct node* insert(struct node* tmp, int x, int depth)
+struct node* insert(struct node* tmp, int value, int depth)
 {
     if(tmp == NULL)
     {
-        return newNode(x, depth);
+        return newNode(value, depth);
     }
 
-    else if(x < tmp->value)
+    else if(value < tmp->value)
     {
         depth++;
-        tmp->left = insert(tmp->left, x, depth);
+        tmp->left = insert(tmp->left, value, depth);
     }
 
-    else if(x > tmp->value)
+    else if(value > tmp->value)
     {
         depth++;
-        tmp->right = insert(tmp->left, x, depth);
+        tmp->right = insert(tmp->left, value, depth);
     }
 
     return tmp;
@@ -106,10 +106,10 @@ int main()
             insert(head, nodeValue, ROOT);
         }
         struct node *tmp = head;
-        printLeft(tmp);
+        //printLeft(tmp);
         int max = 0;
-        //traverse(head, &max);
-        printf("%d\n", max+1);
+        traverse(head, &max);
+        printf("%d\n", max);
 
     }
     return 0;
