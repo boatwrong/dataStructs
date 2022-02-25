@@ -72,6 +72,10 @@ void traverse(struct node* node, int *max)
 
 void printLeft(struct node* node)
 {
+    for(int i=0; i<node->depth -1; i++)
+    {
+        printf(" ");
+    }
     printf("%d\n", node->value);
     if(node->left != NULL)
     {
@@ -102,9 +106,9 @@ int main()
             insert(head, nodeValue, ROOT);
         }
         struct node *tmp = head;
-        //printLeft(tmp);
+        printLeft(tmp);
         int max = 0;
-        traverse(head, &max);
+        //traverse(head, &max);
         printf("%d\n", max+1);
 
     }
