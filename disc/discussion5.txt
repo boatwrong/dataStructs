@@ -1,1 +1,11 @@
 List and define the five most common operations that can be performed on all Data Structures?
+
+Search - Search through the structure for a particular piece of data, some are more efficient than others. Could return an index, a pointer, or just an indicaation if the piece of data exists in the structure.
+
+Insert - Insert a new element into the list at a specific location. 
+
+Remove - Remove a specific element of the structure.
+
+Pop - Mostly used with stacks, queue's, and deques. Remove the 'top' or 'first' element in the structure
+
+Push - insert a new element into the structure either at front of back depending on type.
