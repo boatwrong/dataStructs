@@ -1,2 +1,2 @@
-8:	8.c
-	gcc -o a.out 8.c
+4:	4.c
+	gcc -o a.out 4.c
